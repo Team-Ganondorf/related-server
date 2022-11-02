@@ -1,0 +1,29 @@
+{
+  "name": "related-server",
+  "version": "1.0.0",
+  "description": "Attelier Server for Product Service",
+  "main": "index.js",
+  "scripts": {
+    "devStart": "nodemon server/index.js",
+    "server": "server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Team-Ganondorf/related-server.git"
+  },
+  "author": "Mark Clark",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Team-Ganondorf/related-server/issues"
+  },
+  "homepage": "https://github.com/Team-Ganondorf/related-server#readme",
+  "devDependencies": {
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongodb": "^4.11.0"
+  }
+}
