@@ -13,9 +13,9 @@ async function run() {
 
     await client.db(source).command({ ping: 1 });
     console.log("Connected successfully to database server");
-    const products = await client.db(source).createCollection('products');
-    await products.insertOne({product_id: 1, name: 'apple bottom jeans'});
-    console.log('Product Instance should exist');
+    // const products = await client.db(source).createCollection('products');
+    // await products.insertOne({product_id: 1, name: 'apple bottom jeans'});
+    // console.log('Product Instance should exist');
   } finally {
     await client.close();
   }
@@ -23,4 +23,4 @@ async function run() {
 
 run().catch(console.dir);
 
-module.exports = client;
+module.exports = { client };

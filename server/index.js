@@ -12,12 +12,14 @@ app.use(cors());
 // Routes
 // app.use(routes);
 
+// api/fec2/hr-rfc
+
 // Database
 const db = require('../db/client.js');
 db.connect();
 
 app.get('/', (req, res) => {
-  res.send('connection success');
+  res.send('success');
 });
 
 const PORT = process.env.PORT | 8080;
