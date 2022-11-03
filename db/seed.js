@@ -184,7 +184,7 @@ const loadData = async () => {
     });
 };
 
-loadData();
+// loadData();
 
 async function seedData() {
   const products = await client.db(source).createCollection('products');
@@ -192,7 +192,7 @@ async function seedData() {
   console.log('Products should be seeded');
 }
 
-seedData();
+// seedData();
 
 // resultObj = {
 //   "style_id": String,

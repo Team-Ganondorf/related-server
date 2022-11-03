@@ -1,18 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-// const routes = require('./routes');
+const routes = require('./routes');
 const app = express();
+const campusAPI = 'api/fec2/hr-rfc';
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
-
-// Routes
-// app.use(routes);
-
-// api/fec2/hr-rfc
 
 // Database
 // const db = require('../db/client.js');
@@ -21,6 +17,8 @@ app.use(cors());
 app.get('/', (req, res) => {
   res.send('success');
 });
+
+app.use(routes);
 
 const PORT = process.env.PORT | 8080;
 
