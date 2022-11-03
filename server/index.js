@@ -8,7 +8,6 @@ const campusAPI = 'api/fec2/hr-rfc';
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
 
 // Database
 // const db = require('../db/client.js');
