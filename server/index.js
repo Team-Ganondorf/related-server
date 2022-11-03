@@ -15,8 +15,8 @@ app.use(cors());
 // api/fec2/hr-rfc
 
 // Database
-const db = require('../db/client.js');
-db.connect();
+// const db = require('../db/client.js');
+// db.connect();
 
 app.get('/', (req, res) => {
   res.send('success');
