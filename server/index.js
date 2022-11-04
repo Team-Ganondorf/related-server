@@ -9,9 +9,6 @@ const campusAPI = 'api/fec2/hr-rfc';
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Database
-// const db = require('../db/client.js');
-// db.connect();
 
 app.get('/', (req, res) => {
   res.send('success');

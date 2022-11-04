@@ -1,8 +1,9 @@
 const fs = require("fs");
-const { client } = require('./client.js');
+const { MongoClient } = require("mongodb");
 
 const uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017';
 const source = process.env.DATABASE || 'attelier-product-db';
+const client = new MongoClient(uri, { useUnifiedTopology: true });
 
 // models
 const { Product } = require('./models/product.js');
@@ -12,20 +13,17 @@ const { Sku } = require('./models/sku.js');
 const { Related } = require('./models/related.js');
 const { Style } = require('./models/style.js');
 
-// USE READ STREAM TO SEED COLLECTION
-// THIS SEED FUNCTION MAY TAKE 15-30 MINUTES TO COMPLETE DB SEEDING
 const campus = 'hr-rfc';
 
 let parsedProducts = [];
 let parsedStyles = [];
 let parsedFeatures = [];
-let parsedSkus = [];
+let parsedSkus = {};
 let parsedRelated = [];
 let parsedPhotos = [];
 let parsedResults = [];
 
 const loadData = async () => {
-
 
   await fs.createReadStream('db/data/features.csv', { encoding: "utf-8" })
     .on("data", (chunk) => {
@@ -88,7 +86,7 @@ const loadData = async () => {
         const quantity = chunk[3];
 
         const newSku = new Sku(id, styleId, size, quantity);
-        parsedSkus.push(newSku);
+        parsedSkus[id] = { ...newSku };
 
         return newSku;
       });
@@ -136,9 +134,13 @@ const loadData = async () => {
         const original_price = chunk[4];
         const default_style = chunk[5];
         const photos = parsedPhotos.filter((photo) => photo.styleId === id);
-        const skus = parsedSkus.filter((sku) => sku.styleId === id);
+        const skus = {};
 
-
+        for (skew in parsedSkus) {
+          if (parsedSkus[skew].styleId === id) {
+            skus[skew] = parsedSkus[skew];
+          }
+        }
 
         // will equal style and style will include photos and skus
 
@@ -154,7 +156,7 @@ const loadData = async () => {
       console.log(error);
     });
 
-  fs.createReadStream('db/data/product.csv', { encoding: "utf-8" })
+  await fs.createReadStream('db/data/product.csv', { encoding: "utf-8" })
     .on("data", (chunk) => {
       setTimeout(() => {
 
@@ -182,35 +184,30 @@ const loadData = async () => {
     .on("error", (error) => {
       console.log(error);
     });
+
 };
 
-// loadData();
+loadData();
 
 async function seedData() {
-  const products = await client.db(source).createCollection('products');
-  await products.insertMany(parsedProducts);
-  console.log('Products should be seeded');
+  async function run() {
+    console.log('attempting to seed');
+    try {
+      await client.connect();
+      const products = await client.db(source).createCollection('products');
+      parsedProducts.forEach((prod) => {
+        products.insertOne({ ...prod });
+      });
+      console.log('done seeding db');
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  run().catch(console.dir);
 }
 
-// seedData();
-
-// resultObj = {
-//   "style_id": String,
-//   "name": String,
-//   "original_price": String,
-//   "sale_price": String,
-//   "default?": Boolean,
-//   "photos": [{
-//     "thumbnail_url": "https://images.unsplash.com/photo-1501088430",
-//     "url": "https://images.unsplash.com/photo-1501088430049-71c7"
-//   }],
-//   "skus": {
-//     "2390357": {
-//       "quantity": 8,
-//       "size": "XS"
-//     },
-//   }
-// }
+seedData();
 
 // db.createCollection("productss", {
 //   "id": String,
@@ -239,7 +236,3 @@ async function seedData() {
 //     }
 //   ]
 // });
-
-// // const collection = db.products;
-// // const insertResult = await collection.insertMany([]);
-// // console.log('Inserted documents =>', insertResult);

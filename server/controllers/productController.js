@@ -1,10 +1,16 @@
+const { MongoClient } = require("mongodb");
+const uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/';
+const source = process.env.DATABASE || 'attelier-product-db';
+
 module.exports = {
-  getAllProducts: async (req, res) => {
+  getProductById: async (req, res) => {
+    const id = req.params.product_id;
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
     try {
-      res.send("hit all products request");
-    } catch (error) {
-      console.log(error);
-      res.status(500).send("There was an error retreiving all products");
+      let data = await client.db(source).collection('products').find({ id: id }).toArray();
+      res.json(data);
+    } finally {
+      await client.close();
     }
   }
 };

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "devStart": "nodemon server/index.js",
+    "devDB": "node db/client.js",
     "server": "server/index.js",
     "data:import": "node db/seed.js",
     "data:clear": "node db/cleardb.js",
@@ -22,7 +23,9 @@
   "homepage": "https://github.com/Team-Ganondorf/related-server#readme",
   "devDependencies": {
     "dotenv": "^16.0.3",
-    "nodemon": "^2.0.20"
+    "jest": "^29.2.2",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.1"
   },
   "dependencies": {
     "cors": "^2.8.5",

@@ -10,12 +10,9 @@ async function run() {
   try {
     await client.connect();
     console.log('connecting');
-
+    console.log(client.db(source))
     await client.db(source).command({ ping: 1 });
-    console.log("Connected successfully to database server");
-    // const products = await client.db(source).createCollection('products');
-    // await products.insertOne({product_id: 1, name: 'apple bottom jeans'});
-    // console.log('Product Instance should exist');
+    console.log('successfully connected to db');
   } finally {
     await client.close();
   }
