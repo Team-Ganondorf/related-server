@@ -4,7 +4,7 @@ const source = process.env.DATABASE || 'attelier-product-db';
 
 module.exports = {
   getRelated: async (req, res) => {
-    const id = req.params.product_id;
+    const id = +req.params.product_id;
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     try {
       let data = await client.db(source).collection('products').find({ id: id }).toArray();

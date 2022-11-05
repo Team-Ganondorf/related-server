@@ -32,8 +32,8 @@ const loadData = async () => {
       }, 1000);
 
       let currentChunk = chunk.split(/\n/).map((x) => x.split(',')).map((chunk) => {
-        const id = chunk[0];
-        const product_id = chunk[1];
+        const id = +chunk[0];
+        const product_id = +chunk[1];
         const feature = chunk[2];
         const value = chunk[3];
 
@@ -57,7 +57,7 @@ const loadData = async () => {
 
       let currentChunk = chunk.split(/\n/).map((x) => x.split(',')).map((chunk) => {
         const id = chunk[0];
-        const styleId = chunk[1];
+        const styleId = +chunk[1];
         const url = chunk[2];
         const thumbnail_url = chunk[3];
 
@@ -104,9 +104,9 @@ const loadData = async () => {
       }, 1000);
 
       let currentChunk = chunk.split(/\n/).map((x) => x.split(',')).map((chunk) => {
-        const id = chunk[0];
-        const current_product_id = chunk[1];
-        const related_product_id = chunk[2];
+        const id = +chunk[0];
+        const current_product_id = +chunk[1];
+        const related_product_id = +chunk[2];
 
         const newRelated = new Related(id, current_product_id, related_product_id);
         parsedRelated.push(newRelated);
@@ -127,24 +127,24 @@ const loadData = async () => {
       }, 1000);
 
       let currentChunk = chunk.split(/\n/).map((x) => x.split(',')).map((chunk) => {
-        const id = chunk[0];
-        const productId = chunk[1];
+        const style_id = +chunk[0];
+        const productId = +chunk[1];
         const name = chunk[2];
         const sale_price = chunk[3];
         const original_price = chunk[4];
-        const default_style = chunk[5];
-        const photos = parsedPhotos.filter((photo) => photo.styleId === id);
+        const default_style = chunk[5] > 0;
+        const photos = parsedPhotos.filter((photo) => photo.styleId === style_id);
         const skus = {};
 
         for (skew in parsedSkus) {
-          if (parsedSkus[skew].styleId === id) {
+          if (parsedSkus[skew].styleId === style_id) {
             skus[skew] = parsedSkus[skew];
           }
         }
 
         // will equal style and style will include photos and skus
 
-        const newStyle = new Style(id, productId, name, sale_price, original_price, default_style, photos, skus);
+        const newStyle = new Style(style_id, productId, name, sale_price, original_price, default_style, photos, skus);
         parsedStyles.push(newStyle);
 
         return newStyle;
@@ -163,7 +163,7 @@ const loadData = async () => {
       }, 1000);
 
       let currentChunk = chunk.split(/\n/).map((x) => x.split(',')).map((chunk) => {
-        const id = chunk[0];
+        const id = +chunk[0];
         const name = chunk[1];
         const slogan = chunk[2];
         const description = chunk[3];
@@ -208,31 +208,3 @@ async function seedData() {
 }
 
 seedData();
-
-// db.createCollection("productss", {
-//   "id": String,
-//   "campus": String,
-//   "name": String,
-//   "slogan": String,
-//   "description": String,
-//   "category": String,
-//   "default_price": String,
-//   "created_at": {
-//     default: new Date(),
-//   },
-//   "updated_at": {
-//     default: new Date(),
-//   },
-//   "features": [String],
-//   "results": [
-//     {
-//       "style_id": String,
-//       "name": String,
-//       "original_price": String,
-//       "sale_price": String,
-//       "default?": Boolean,
-//       "photos": [Object],
-//       "skus": Object
-//     }
-//   ]
-// });

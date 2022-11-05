@@ -4,7 +4,7 @@ const source = process.env.DATABASE || 'attelier-product-db';
 
 module.exports = {
   getStylesById: async (req, res) => {
-    const id = req.params.product_id;
+    const id = +req.params.product_id;
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     try {
       let data = await client.db(source).collection('products').find({ id: id }).toArray();
@@ -14,10 +14,10 @@ module.exports = {
           "product_id": id,
           "results": [...styles]
         }
-        res.json(result);
+        res.send(result);
       } else {
         res.status(404);
-        res.json({ 'Erorr ': 'unable to find product styles with provided id. Please check the id and try agian.' });
+        res.send({ 'Erorr ': 'unable to find product styles with provided id. Please check the id and try agian.' });
       }
     } finally {
       await client.close();
