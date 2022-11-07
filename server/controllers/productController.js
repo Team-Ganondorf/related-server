@@ -1,18 +1,13 @@
-const { loadCache } = require('../../db/dbcache.js');
+const db = require('../../db/client.js');
 module.exports = {
   getProductById: async (req, res) => {
     const id = +req.params.product_id;
+    const client = new MongoClient(uri, { useUnifiedTopology: true });
     try {
-      const cache = await loadCache();
-      const data = cache[id];
-      if (data) {
-        res.send(data);
-      } else {
-        res.status(404);
-        res.send('not found');
-      }
-    } catch (err) {
-      console.log('Error retreiving product by provided id ' + err);
+      let data = await client.db(source).collection('products').findOne({ id: id });
+      res.send(data);
+    } finally {
+      await client.close();
     }
   }
 };
