@@ -6,6 +6,7 @@ const routes = require('./routes');
 const db = require('../db/client.js');
 const app = express();
 const campusAPI = 'api/fec2/hr-rfc';
+const cache = require('./cache.js');
 
 // Middleware
 app.use(express.json());
@@ -20,6 +21,7 @@ app.get('/loaderio-eae136dd98e413d38d172053a20f0383.txt', (req, res) => {
 
 // Authorization
 app.use(auth);
+app.use(cache(3000));
 
 
 
