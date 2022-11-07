@@ -1,10 +1,13 @@
 const { run } = require('./client.js');
 
-let productsCache;
+let productsCache = {};
 
 const loadCache = async () => {
   const db = await run();
-  productsCache = await db.collection('products').find({}).toArray();
+  let products = await db.collection('products').find({}).toArray();
+  products.forEach((product) => {
+    productsCache[product.id] = product;
+  });
   return productsCache;
 };
 

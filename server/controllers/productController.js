@@ -4,7 +4,7 @@ module.exports = {
     const id = +req.params.product_id;
     try {
       const cache = await loadCache();
-      const data = cache.filter((product) => product.id === id)[0];
+      const data = cache[id];
       if (data) {
         res.send(data);
       } else {
