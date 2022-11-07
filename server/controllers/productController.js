@@ -1,4 +1,7 @@
-const db = require('../../db/client.js');
+const { MongoClient } = require("mongodb");
+const uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/';
+const source = process.env.DATABASE || 'attelier-product-db';
+
 module.exports = {
   getProductById: async (req, res) => {
     const id = +req.params.product_id;
