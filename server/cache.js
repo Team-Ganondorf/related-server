@@ -11,7 +11,7 @@ module.exports = (duration) => (req, res, next) => {
   const cachedResponse = cache.get(key);
 
   if (cachedResponse) {
-    res.send(JSON.parse(cachedResponse));
+    res.send(cachedResponse);
   } else {
     res.originalUrl = res.send;
     res.send = (body) => {
