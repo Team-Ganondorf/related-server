@@ -7,7 +7,6 @@ module.exports = {
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     try {
       let products = await client.db(source).collection('products').find({}).toArray();
-
       res.send(products);
     } finally {
       await client.close();
