@@ -5,6 +5,7 @@ const auth = require('./middleware/auth.js');
 const routes = require('./routes');
 const app = express();
 const campusAPI = 'api/fec2/hr-rfc';
+const productsCache = require('../db/dbcache.js');
 
 // Middleware
 app.use(express.json());
