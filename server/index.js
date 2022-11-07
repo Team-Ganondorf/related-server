@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/loaderio-eae136dd98e413d38d172053a20f0383.txt', (req, res) => {
-  res.send({ key: 'loaderio-eae136dd98e413d38d172053a20f0383' });
+  res.send('loaderio-eae136dd98e413d38d172053a20f0383');
 });
 
 app.use(routes);
