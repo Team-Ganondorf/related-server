@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const auth = require('./middleware/auth.js');
 const routes = require('./routes');
 const app = express();
 const campusAPI = 'api/fec2/hr-rfc';
@@ -8,6 +9,7 @@ const campusAPI = 'api/fec2/hr-rfc';
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(auth);
 
 
 app.get('/', (req, res) => {
