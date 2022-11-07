@@ -7,7 +7,7 @@ module.exports = {
     const id = +req.params.product_id;
     const client = new MongoClient(uri, { useUnifiedTopology: true });
     try {
-      let data = await client.db(source).collection('products').find({ id: id }).lean().toArray();
+      let data = await client.db(source).collection('products').find({ id: id }).toArray();
       if (data[0] && data[0].results) {
         let styles = data[0].results;
         let result = {
